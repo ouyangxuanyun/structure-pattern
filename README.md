@@ -1,0 +1,1 @@
+This is a repository for practicing data structure and design pattern of JavaScript
