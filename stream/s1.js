@@ -47,7 +47,18 @@
 // });
 
 
-process.stdin.on('readable', function () {
-    var buf = process.stdin.read(3);
-    console.dir(buf);
-});
+// process.stdin.on('readable', function () {
+//     var buf = process.stdin.read(3);
+//     console.dir(buf);
+// });
+
+let a = {aa:'aaaa'}
+let b = {bb:'bbb'}
+let c = {cc:'ccc'}
+
+let e = {a,b,c}
+console.log(e)
+
+let str = 'a=aaa,b=bbb,c=ccc'
+let strs = str.slice(0,str.length - 1)
+console.log(strs)
