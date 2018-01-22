@@ -1,4 +1,4 @@
-const ArraySorts = require('../sorts');
+const ArraySorts = require('../ArraySorts');
 
 let testArr = new ArraySorts();
 testArr.insert(2, 3, 7, 6, 4, 9, 1)
