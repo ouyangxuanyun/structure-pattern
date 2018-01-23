@@ -1,3 +1,3 @@
-const bb = require('./b')
+const bb = require('./b');
+console.log('module a run')
 console.log(bb)
-console.log(c)
