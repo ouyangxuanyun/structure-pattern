@@ -197,7 +197,7 @@ class BinarySearchTree {
     }
 
     /**
-     * 访问方式  1 inOrderTraverse 2 preOrderTraverse
+     * 1 inOrderTraverse 2 preOrderTraverse
      * @param order
      * @return {*|string}
      */
