@@ -1,2 +1,0 @@
-const BST = require('../BinarySearchTree');
-

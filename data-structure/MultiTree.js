@@ -1,44 +1,43 @@
 class Node {
-    constructor(key, parent, value) {
-        this._key = key;        // 节点唯一标识
-        this._value = value;    // 节点内容
-        this._parents = new Set(); // 父节点 可能有多个
-        this._parents.add(parent);
-        this._childes = [];     // 所有子节点节点集合
-    }
+  constructor (key, parent, value) {
+    this._key = key;        // 节点唯一标识
+    this._value = value;    // 节点内容
+    this._parents = new Set(); // 父节点 可能有多个
+    this._parents.add(parent);
+    this._childes = [];     // 所有子节点节点集合
+  }
 
-    get key() {
-        return this._key;
-    }
+  get key () {
+    return this._key;
+  }
 
-    set key(value) {
-        this._key = value;
-    }
+  set key (value) {
+    this._key = value;
+  }
 
+  get childes () {
+    return this._childes;
+  }
 
-    get childes() {
-        return this._childes;
-    }
+  set childes (value) {
+    this._childes = value;
+  }
 
-    set childes(value) {
-        this._childes = value;
-    }
+  get value () {
+    return this._value;
+  }
 
-    get value() {
-        return this._value;
-    }
+  set value (value) {
+    this._value = value;
+  }
 
-    set value(value) {
-        this._value = value;
-    }
+  get parents () {
+    return this._parents;
+  }
 
-    get parents() {
-        return this._parents;
-    }
-
-    set parents(value) {
-        this._parents = value;
-    }
+  set parents (value) {
+    this._parents = value;
+  }
 }
 
 // 根节点
@@ -56,35 +55,108 @@ const _waitAllotSet = Symbol('_waitAllotSet');
 // 根据code对应node的映射
 const _nodeHash = Symbol('_nodeHash');
 
-const insertNode = function (root, node) {
-    if (node.parents.has(root.key)) {
-        // console.log("========2",root,"===========1",node);
-        root.childes.push(node);
-        return true;
-    }
-    for (let val of root.childes) {
-        return insertNode(val, node);
-    }
-    return false;
+const insertNode = (root, node) => {
+  if (node.parents.has(root.key)) {
+    // console.log("========2",root,"===========1",node);
+    root.childes.push(node);
+    return true;
+  }
+  for (let val of root.childes) {
+    return insertNode(val, node);
+  }
+  return false;
 };
 
-class MultiTree{
-    constructor(keyName) {
-        this[_root] = new Node(_rootTag, null, {next: []});
-        this._keyName = keyName;
-        this[_funcInsertNode] = insertNode;
-        // this[_funcRecursionNode] = recursion;
-        this[_waitAllot] = new Map();
-        this[_waitAllotSet] = new Set();
-        this[_nodeHash] = new Map();
-    }
-    get keyName() {
-        return this._keyName;
-    }
+const recursion = (list, children) => {
+  let index = 0;
+  for (let v of children) {
+    let parse = JSON.parse(JSON.stringify(v.value));
+    list.push(parse);
+    recursion(list[index].next, v.children);
+    index++;
+  }
+};
 
-    set keyName(value) {
-        this._keyName = value;
-    }
+class MultiTree {
+  constructor (keyName) {
+    this[_root] = new Node(_rootTag, null, {next: []});
+    this._keyName = keyName;
+    this[_funcInsertNode] = insertNode;
+    this[_funcRecursionNode] = recursion;
+    this[_waitAllot] = new Map();
+    this[_waitAllotSet] = new Set();
+    this[_nodeHash] = new Map();
+  }
 
+  get keyName () {
+    return this._keyName;
+  }
+
+  set keyName (value) {
+    this._keyName = value;
+  }
+
+  insert(data) {
+    if (!(this._keyName in data) || !('parent' in data)) {
+      return false;
+    }
+    if (this[_nodeHash].has(data[this.keyName])) {
+      const getNode = this[_nodeHash].get(data[this.keyName]);
+      if (getNode.parents.has(data.parent)) {   // 重复数据 不添加
+        console.error(`${this.keyName}=${data[this.keyName]} and parent=${data.parent} is repeat`);
+      } else {
+        getNode.parents.add(data.parent);
+        // 多个父节点时  往value[this.keyName]对应的父节点的childes添加节点
+        if (this[_nodeHash].has(data.parent)) {
+          this[_nodeHash].get(data.parent).childes.push(getNode);
+          // console.log(value.parent,this[_node_hash].get(value.parent));
+        } else {
+
+        }
+      }
+      return true;
+    }
+    let dataCopy = JSON.parse(JSON.stringify(data));
+    dataCopy.next = [];
+    let node = new Node(data[this.keyName], data.parent, dataCopy);
+    this[_nodeHash].set(data[this.keyName], node);
+    if (!dataCopy.parent) { //一级
+      node.parent.add(this[_root]);
+      this[_root].childes.push(node);
+    } else {
+      let newVar = this[_funcInsertNode](this[_root], node);
+      if (!newVar) {
+        this[_waitAllotSet].add(node); // 添加到待分配中
+      }
+    }
+    this.clearWait(node); // 每次需要把待分配队列递归遍历
+    return true;
+  }
+
+  clearWait (node) {
+    let isRecursion = false;
+    let nodeList = [];
+    for (let value of this[_waitAllotSet]) {
+      if (value.parents.has(node.key)) {
+        this[_funcInsertNode](node, value);
+        this[_waitAllotSet].delete(value);
+        isRecursion = true;
+        nodeList.push(value);
+      }
+    }
+    if (isRecursion && this[_waitAllotSet].size !== 0) {
+      for (let val of nodeList) {
+        this.clearWait(val);
+      }
+    }
+  }
+
+  toArray () {
+    let list = [];
+    this[_funcRecursionNode](list, this[_root].childes);
+    console.log(this[_root]);
+    return list;
+  }
 }
 
+module.exports = MultiTree;
