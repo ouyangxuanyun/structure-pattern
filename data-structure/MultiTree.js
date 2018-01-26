@@ -4,7 +4,7 @@ class Node {
     this._value = value;    // 节点内容
     this._parents = new Set(); // 父节点 可能有多个
     this._parents.add(parent);
-    this._childes = [];     // 所有子节点节点集合
+    this._children = [];     // 所有子节点节点集合
   }
 
   get key () {
@@ -15,12 +15,12 @@ class Node {
     this._key = value;
   }
 
-  get childes () {
-    return this._childes;
+  get children () {
+    return this._children;
   }
 
-  set childes (value) {
-    this._childes = value;
+  set children (value) {
+    this._children = value;
   }
 
   get value () {
@@ -57,11 +57,10 @@ const _nodeHash = Symbol('_nodeHash');
 
 const insertNode = (root, node) => {
   if (node.parents.has(root.key)) {
-    // console.log("========2",root,"===========1",node);
-    root.childes.push(node);
+    root.children.push(node);
     return true;
   }
-  for (let val of root.childes) {
+  for (let val of root.children) {
     return insertNode(val, node);
   }
   return false;
@@ -106,9 +105,9 @@ class MultiTree {
         console.error(`${this.keyName}=${data[this.keyName]} and parent=${data.parent} is repeat`);
       } else {
         getNode.parents.add(data.parent);
-        // 多个父节点时  往value[this.keyName]对应的父节点的childes添加节点
+        // 多个父节点时  往value[this.keyName]对应的父节点的children添加节点
         if (this[_nodeHash].has(data.parent)) {
-          this[_nodeHash].get(data.parent).childes.push(getNode);
+          this[_nodeHash].get(data.parent).children.push(getNode);
           // console.log(value.parent,this[_node_hash].get(value.parent));
         } else {
 
@@ -121,8 +120,8 @@ class MultiTree {
     let node = new Node(data[this.keyName], data.parent, dataCopy);
     this[_nodeHash].set(data[this.keyName], node);
     if (!dataCopy.parent) { //一级
-      node.parent.add(this[_root]);
-      this[_root].childes.push(node);
+      node.parents.add(this[_root]);
+      this[_root].children.push(node);
     } else {
       let newVar = this[_funcInsertNode](this[_root], node);
       if (!newVar) {
@@ -153,7 +152,7 @@ class MultiTree {
 
   toArray () {
     let list = [];
-    this[_funcRecursionNode](list, this[_root].childes);
+    this[_funcRecursionNode](list, this[_root].children);
     console.log(this[_root]);
     return list;
   }

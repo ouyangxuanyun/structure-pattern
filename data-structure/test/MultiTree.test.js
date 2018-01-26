@@ -3,56 +3,56 @@ const multiTree = require('../MultiTree');
 let tree = new multiTree('code');
 let data = [
   {
-    'code': '35000000001',
-    'type': 'watershed',
-    'name': '闽江福州段',
+    'code': '001',
+    'type': 'w',
+    'name': 'AA',
     'user_id': '01',
-    'user_title': '市级河长',
+    'user_title': '市',
     'province_code': '350000000000',
-    'parent': '350000001'
+    'parent': '000'
   },
   {
-    'code': '35000000002',
-    'type': 'reach',
-    'name': '淮溪',
+    'code': '002',
+    'type': 'p',
+    'name': 'A',
     'user_id': '01',
-    'user_title': '镇级河长',
-    'province_code': '350000000000',
-    'parent': '35000000001'
-  },
-  {
-    'code': '35000000003',
-    'type': 'reach',
-    'name': '淮溪1',
-    'user_id': '01',
-    'user_title': '镇级河长',
+    'user_title': '镇',
     'province_code': '350000000000',
     'parent': '35000000001'
   },
   {
-    'code': '35000000004',
-    'type': 'reach',
-    'name': '淮溪2',
+    'code': '003',
+    'type': 'p',
+    'name': 'A1',
     'user_id': '01',
-    'user_title': '镇级河长',
+    'user_title': '镇',
     'province_code': '350000000000',
-    'parent': '35000000002'
+    'parent': '001'
   },
   {
-    'code': '35000000004',
-    'type': 'reach',
-    'name': '淮溪2',
+    'code': '004',
+    'type': 'p',
+    'name': 'A2',
     'user_id': '01',
-    'user_title': '镇级河长',
+    'user_title': '镇',
     'province_code': '350000000000',
-    'parent': '35000000003'
+    'parent': '002'
   },
   {
-    'code': '350000001',
-    'type': 'watershed',
-    'name': '闽江流域',
+    'code': '004',
+    'type': 'p',
+    'name': 'A2',
     'user_id': '01',
-    'user_title': '省级河长',
+    'user_title': '镇',
+    'province_code': '350000000000',
+    'parent': '003'
+  },
+  {
+    'code': '000',
+    'type': 'w',
+    'name': 'A0',
+    'user_id': '01',
+    'user_title': '省',
     'province_code': '350000000000',
     'parent': null
   }
@@ -63,3 +63,10 @@ for (let val of data) {
 }
 
 console.log(JSON.stringify(tree.toArray()));
+
+/*
+*           000
+*           001
+*        002   003
+*        004   004
+**/
