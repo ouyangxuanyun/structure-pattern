@@ -22,7 +22,7 @@ class Node {
     }
 
     get right() {
-        return this._left;
+        return this._right;
     }
 
     set right(value) {
@@ -84,7 +84,7 @@ const removeNode = (node, key) => { // node 起始点为root, 函数返回的是
             return node;
         }
         if (node.right === null) { // 只有左节点
-            node = node.right;
+            node = node.left;
             return node;
         }
         let minNode = findMinNode(node.right) // 找到右子树的最小节点替代要删除的节点
@@ -111,8 +111,8 @@ const inOrderTraverse = (node, arr) => {
 const preOrderTraverseNode = (node, arr) => {
     if (node) {
         arr.push(node.key);
-        preOrderTraverseNode(node.left, callback);
-        preOrderTraverseNode(node.right, callback);
+        preOrderTraverseNode(node.left, arr);
+        preOrderTraverseNode(node.right, arr);
     }
     return arr;
 };
@@ -166,15 +166,15 @@ class BinarySearchTree {
     }
 
     inOrderTraverse() {
-        this[_funcInOrderTraverse](this[_root], []);
+        return this[_funcInOrderTraverse](this[_root], []);
     }
 
     preOrderTraverse() {
-        this[_funcPreOrderTraverse](this[_root], []);
+        return this[_funcPreOrderTraverse](this[_root], []);
     }
 
     postOrderTraverse() {
-        this[_funcPostOrderTraverse](this[_root], []);
+        return this[_funcPostOrderTraverse](this[_root], []);
     }
 
 
@@ -197,7 +197,7 @@ class BinarySearchTree {
     }
 
     /**
-     * 访问方式  1 inOrderTraverse 2 preOrderTraverse
+     * 1 inOrderTraverse 2 preOrderTraverse
      * @param order
      * @return {*|string}
      */
@@ -215,4 +215,5 @@ class BinarySearchTree {
 }
 
 module.exports = BinarySearchTree;
+
 
