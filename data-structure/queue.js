@@ -1,6 +1,6 @@
-const LinkedList = require('./linked_list');
+const LinList = require('./linked_list');
 
-class Queue extends LinkedList {
+class Queue extends LinList {
   constructor () {
     super();
   }
