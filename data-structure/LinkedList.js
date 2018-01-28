@@ -38,9 +38,9 @@ class LinkedList {
         const node = new Node(element);
         if (this[_head] === null) {
             this[_head] = node;
-        } else {    // 查找到最后一个元素
+        } else {
             let current = this[_head];
-            while (current.next) {
+            while (current.next) { // 查找到最后一个元素
                 current = current.next;
             }
             current.next = node;
@@ -92,9 +92,9 @@ class LinkedList {
         }
         let index;
         let previous;   // 上一个节点
-        for (index = 0; index < position; index++) { // 找到这个node,此时current就是
-            previous = current;
-            current = current.next;
+        for (index = 0; index < position; index++) { // 找到这个node,
+            previous = current; //此时currtent也即赋值后的previous是node的前一个节点
+            current = current.next;// 此时赋值后的current就是要删除的node
         }
         if (index == 0 && current) { // 根节点
             this[_head] = current.next;
