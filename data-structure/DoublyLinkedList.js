@@ -64,7 +64,6 @@ class DoublyLinkedList {
             lastEle.next = node;
             node.prev = lastEle;
             this[_tail] = node;
-
         }
         this[_length]++;
     }
@@ -120,11 +119,11 @@ class DoublyLinkedList {
         if (position == 0) {    // 头部
             current = this[_head];
             this[_head] = current.next;
-            if (this.size() == 1) {
+            if (this.size() == 1) { // 只有根节点，此时this[_head] 是null, this[_tail]也是null
                 this[_tail] = null;
+            } else {
+                this[_head].prev = null;
             }
-            this[_head].prev = null;
-
         } else if (position == this.size() - 1) {   // 尾部
             current = this[_tail];
             this[_tail] = current.prev;
