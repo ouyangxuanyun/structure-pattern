@@ -66,12 +66,13 @@ const insertNode = (root, node) => {
   return false;
 };
 
-const recursion = (list, children) => {
+const recursion = (list, children) => { //把所有的子节点加入到list中
   let index = 0;
   for (let v of children) {
     let parse = JSON.parse(JSON.stringify(v.value));
-    list.push(parse);
-    recursion(list[index].next, v.children);
+    list.push(parse); 
+    recursion(list[index].next, v.children);// 此处 给每个节点添加了next属性
+    // recursion([], v.children);
     index++;
   }
 };
@@ -152,7 +153,7 @@ class MultiTree {
 
   toArray () {
     let list = [];
-    this[_funcRecursionNode](list, this[_root].children);
+    this[_funcRecursionNode](list, this[_root].children); // 意义是把root节点的所有子节点添加到list中
     console.log(this[_root]);
     return list;
   }
