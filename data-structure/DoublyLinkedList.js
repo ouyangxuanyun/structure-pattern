@@ -97,7 +97,6 @@ class DoublyLinkedList {
             this[_length]++;
         } else {    // 从头部开始遍历
             let index;
-
             for (index = 0; index < position; index++) {
                 current = current.next;
             }
