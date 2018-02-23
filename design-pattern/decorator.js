@@ -1,6 +1,6 @@
 /**
- * 装饰模式是只针对一个基本的对象，添加一些修饰。如下面的是对MacBook，加内存（Memory函数装饰）增加75美元，
- * 雕刻（Engraving函数装饰）增加200美元，买保险（Insurance函数装饰）增加250美元。
+ * 装饰模式是只针对一个基本的对象，添加一些修饰。如下面的是对MacBook，加内存（Memory函数装饰）增加100美元，
+ * 雕刻（Engraving函数装饰）增加200美元，买保险（Insurance函数装饰）增加300美元。
  */
 class MacBook {
   constructor () {}
