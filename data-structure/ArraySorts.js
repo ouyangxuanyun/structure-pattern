@@ -24,6 +24,9 @@ class ArraySorts {
      * 快速排序(特点之一是原地排序，非原地排序见http://www.ruanyifeng.com/blog/2011/04/quicksort_in_javascript.html)
      * 方法图解详见 https://www.cnblogs.com/MOBIN/p/4681369.html
      * 把快速排序联想成东拆西补或西拆东补，一边拆一边补，直到所有元素达到有序状态
+     * 思想: 1.在待排序的元素任取一个元素作为基准(通常选第一个元素，但最的选择方法是从待排序元素中随机选取一个作为基准)，称为基准元素；
+     *      2.将待排序的元素进行分区，比基准元素大的元素放在它的右边，比其小的放在它的左边；
+     *      3.对左右两个分区重复以上步骤直到所有元素都是有序的。
      * O(nlogn) ~ O(n^2)
      */
     quickSort() {
@@ -34,9 +37,9 @@ class ArraySorts {
         let leftIndex = left;
         let rightIndex = right;
         let temp = 0;
-        if (leftIndex <= rightIndex) {
-            temp = arr[leftIndex];
-            while (leftIndex != rightIndex) {
+        if (leftIndex <= rightIndex) { //待排序的元素至少有两个的情况
+            temp = arr[leftIndex]; //待排序的第一个元素作为基准元素
+            while (leftIndex != rightIndex) { //从左右两边交替扫描，直到left = right
                 while (leftIndex < rightIndex && arr[rightIndex] >= temp) {
                     rightIndex--;
                 }
@@ -46,9 +49,9 @@ class ArraySorts {
                 }
                 arr[rightIndex] = arr[leftIndex];
             }
-            arr[rightIndex] = temp;
-            this.quickSortHelper(arr, left, leftIndex - 1);
-            this.quickSortHelper(arr, rightIndex + 1, right);
+            arr[rightIndex] = temp; //基准元素归位
+            this.quickSortHelper(arr, left, leftIndex - 1); //对基准元素左边的元素进行递归排序
+            this.quickSortHelper(arr, rightIndex + 1, right); //对基准元素右边的进行递归排序
         }
         return arr;
     }
