@@ -5,6 +5,7 @@ linkedlist.append("ts1");
 linkedlist.append("ts2");
 linkedlist.append("ts3");
 linkedlist.append("ts4");
+// console.log(linkedlist,JSON.stringify(linkedlist, null, 4));
 console.log(linkedlist.toString(),linkedlist.size());
 console.log(linkedlist.removeAt(3));
 console.log(linkedlist.indexOf("ts4"));

@@ -92,7 +92,10 @@
             var size = array.length;
             var temp;
             buildMaxHeap(array, cmp);  // 构建堆
-            for (var i = array.length - 1; i > 0; i -= 1) {
+
+          console.log('***', array)
+
+          for (var i = array.length - 1; i > 0; i -= 1) {
                 temp = array[0];
                 array[0] = array[i];
                 array[i] = temp;

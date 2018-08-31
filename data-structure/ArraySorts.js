@@ -37,7 +37,7 @@ class ArraySorts {
         let leftIndex = left;
         let rightIndex = right;
         let temp = 0;
-        if (leftIndex <= rightIndex) { //待排序的元素至少有两个的情况
+        if (leftIndex < rightIndex) { //待排序的元素至少有两个的情况
             temp = arr[leftIndex]; //待排序的第一个元素作为基准元素
             while (leftIndex != rightIndex) { //从左右两边交替扫描，直到left = right
                 while (leftIndex < rightIndex && arr[rightIndex] >= temp) {
@@ -96,11 +96,14 @@ class ArraySorts {
 
     /**
      * 冒泡排序 O(n^2)
+     * score[j] 和 score[j+1] 比较 如果 前者比后者小，把前者和后者调换顺序，两两调换后一轮下来 最小的会被排到最后去。
+     * 每一轮j都从0开始，当i轮排序，就有最后面的i个数字因为他是最小的，所以后面的每轮都不用理他了，也就是
+     * score.length-1-i  往后的数不用管了
      */
     bubbleSort() {
-        for (let i = 0; i < this.size(); i++) {
-            for (let j = i + 1; j < this.size(); j++) {
-                if (this[_items][i] > this[_items][j]) this.swap(this[_items], i, j);
+        for (let i = 0; i < this.size() - 1; i++) {
+            for (let j = 0; j < this.size() - 1 - i; j++) {
+                if (this[_items][j] > this[_items][j + 1]) this.swap(this[_items], j, j + 1);
             }
         }
     }
