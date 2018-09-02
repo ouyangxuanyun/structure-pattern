@@ -83,6 +83,7 @@ let replaceExample = () => {
 
     str = "aaa bbb ccc";
     console.log(str.replace(/\b\w+\b/g, function (w) {
+        console.log('****', w)
         return w.substring(0, 1).toUpperCase() + w.substring(1);
     })); //Aaa Bbb Ccc
 }

@@ -19,6 +19,7 @@ class CarManager {
         let carManager = new CarManager();
         return carManager[name] && carManager[name].apply(carManager, [].slice.call(arguments, 1));
         // return carManager[name]&&carManager[name]([].slice.call(arguments,1));
+        // return carManager[name]&&carManager[name]([...arguments].slice(1));
     }
 }
 
